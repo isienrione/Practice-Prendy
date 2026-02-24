@@ -1,0 +1,548 @@
+{
+  "version": "4.0",
+  "currency": "CLP",
+  "stores": [
+    {
+      "id": "global",
+      "name": "Global party catalog v4",
+      "locations": [
+        "Santiago"
+      ],
+      "notes": "Unified catalog generated from party_all_items_v4.csv",
+      "items": [
+        {
+          "id": "item-1",
+          "name": "Mini sándwich miga ave palta",
+          "description": "adult_birthday_home,office_farewell_venue",
+          "category": "finger_food",
+          "subcategory": "mini_sandwich",
+          "price": 14900,
+          "vendorName": "novoandina.cl",
+          "venueName": "",
+          "serviceType": "catering",
+          "tags": [
+            "chicken",
+            "avocado"
+          ]
+        },
+        {
+          "id": "item-2",
+          "name": "Mini sándwich miga ave mayo",
+          "description": "adult_birthday_home,office_farewell_venue",
+          "category": "finger_food",
+          "subcategory": "mini_sandwich",
+          "price": 13900,
+          "vendorName": "novoandina.cl",
+          "venueName": "",
+          "serviceType": "catering",
+          "tags": [
+            "chicken"
+          ]
+        },
+        {
+          "id": "item-3",
+          "name": "Mini sándwich Palmito Ricotta",
+          "description": "adult_birthday_home,networking_venue",
+          "category": "finger_food",
+          "subcategory": "mini_sandwich",
+          "price": 15900,
+          "vendorName": "novoandina.cl",
+          "venueName": "",
+          "serviceType": "catering",
+          "tags": [
+            "vegetarian",
+            "gourmet"
+          ]
+        },
+        {
+          "id": "item-4",
+          "name": "Mini croissant jamón y queso",
+          "description": "adult_birthday_home,office_farewell_venue",
+          "category": "finger_food",
+          "subcategory": "mini_croissant",
+          "price": 14700,
+          "vendorName": "novoandina.cl",
+          "venueName": "",
+          "serviceType": "catering",
+          "tags": [
+            "ham",
+            "cheese"
+          ]
+        },
+        {
+          "id": "item-5",
+          "name": "Mini Croissant Salmón Queso Crema Ciboulette",
+          "description": "adult_birthday_home,networking_venue",
+          "category": "finger_food",
+          "subcategory": "mini_croissant",
+          "price": 19900,
+          "vendorName": "novoandina.cl",
+          "venueName": "",
+          "serviceType": "catering",
+          "tags": [
+            "seafood",
+            "gourmet"
+          ]
+        },
+        {
+          "id": "item-6",
+          "name": "Mix Mini sándwiches Miga x 50",
+          "description": "adult_birthday_home,big_home_party",
+          "category": "finger_food",
+          "subcategory": "mix_pack",
+          "price": 62900,
+          "vendorName": "novoandina.cl",
+          "venueName": "",
+          "serviceType": "catering",
+          "tags": [
+            "assorted"
+          ]
+        },
+        {
+          "id": "item-7",
+          "name": "Picoteo Celebremos! (para 15)",
+          "description": "adult_birthday_home,big_home_party",
+          "category": "catering_pack",
+          "subcategory": "cocktail_dinner",
+          "price": 260900,
+          "vendorName": "novoandina.cl",
+          "venueName": "",
+          "serviceType": "catering",
+          "tags": [
+            "full_service",
+            "cocktail"
+          ]
+        },
+        {
+          "id": "item-8",
+          "name": "Picoteo Los Sibaritas (para 15)",
+          "description": "adult_birthday_home,networking_venue",
+          "category": "catering_pack",
+          "subcategory": "cocktail_dinner",
+          "price": 389900,
+          "vendorName": "novoandina.cl",
+          "venueName": "",
+          "serviceType": "catering",
+          "tags": [
+            "seafood",
+            "ceviche",
+            "premium"
+          ]
+        },
+        {
+          "id": "item-9",
+          "name": "Milanesa de res con puré natural",
+          "description": "family_lunch_bbq_home",
+          "category": "main_prepared",
+          "subcategory": "individual_meal",
+          "price": 7900,
+          "vendorName": "novoandina.cl",
+          "venueName": "",
+          "serviceType": "catering",
+          "tags": [
+            "beef",
+            "ready_to_heat"
+          ]
+        },
+        {
+          "id": "item-10",
+          "name": "Crema de Verduras",
+          "description": "family_lunch_bbq_home",
+          "category": "main_prepared",
+          "subcategory": "soup",
+          "price": 4900,
+          "vendorName": "novoandina.cl",
+          "venueName": "",
+          "serviceType": "catering",
+          "tags": [
+            "soup",
+            "vegetarian",
+            "ready_to_heat"
+          ]
+        },
+        {
+          "id": "item-11",
+          "name": "Brunch clásico",
+          "description": "adult_birthday_home,networking_venue",
+          "category": "brunch_box",
+          "subcategory": "brunch_individual",
+          "price": 18900,
+          "vendorName": "cafediario.cl",
+          "venueName": "",
+          "serviceType": "catering",
+          "tags": [
+            "coffee",
+            "breakfast",
+            "gift"
+          ]
+        },
+        {
+          "id": "item-12",
+          "name": "Brunch gourmet",
+          "description": "adult_birthday_home,networking_venue",
+          "category": "brunch_box",
+          "subcategory": "brunch_individual",
+          "price": 24900,
+          "vendorName": "cafediario.cl",
+          "venueName": "",
+          "serviceType": "catering",
+          "tags": [
+            "coffee",
+            "breakfast",
+            "gourmet"
+          ]
+        },
+        {
+          "id": "item-13",
+          "name": "Brunch clásico para compartir",
+          "description": "adult_birthday_home,networking_venue",
+          "category": "brunch_box",
+          "subcategory": "brunch_sharing",
+          "price": 34900,
+          "vendorName": "cafediario.cl",
+          "venueName": "",
+          "serviceType": "catering",
+          "tags": [
+            "coffee",
+            "breakfast",
+            "gift"
+          ]
+        },
+        {
+          "id": "item-14",
+          "name": "Brunch día del amor",
+          "description": "adult_birthday_home",
+          "category": "brunch_box",
+          "subcategory": "special_occasion",
+          "price": 32900,
+          "vendorName": "cafediario.cl",
+          "venueName": "",
+          "serviceType": "catering",
+          "tags": [
+            "gift",
+            "valentines",
+            "ferrero"
+          ]
+        },
+        {
+          "id": "item-15",
+          "name": "Brunch cumpleaños",
+          "description": "adult_birthday_home",
+          "category": "brunch_box",
+          "subcategory": "special_occasion",
+          "price": 26900,
+          "vendorName": "cafediario.cl",
+          "venueName": "",
+          "serviceType": "catering",
+          "tags": [
+            "gift",
+            "birthday",
+            "cake"
+          ]
+        },
+        {
+          "id": "item-16",
+          "name": "Pack Acaí bowl",
+          "description": "adult_birthday_home,networking_venue",
+          "category": "brunch_box",
+          "subcategory": "daily_pack",
+          "price": 15000,
+          "vendorName": "cafediario.cl",
+          "venueName": "",
+          "serviceType": "catering",
+          "tags": [
+            "coffee",
+            "acai",
+            "healthy"
+          ]
+        },
+        {
+          "id": "item-17",
+          "name": "Mini croissant clásico",
+          "description": "adult_birthday_home,office_farewell_venue,networking_venue",
+          "category": "finger_food",
+          "subcategory": "mini_croissant",
+          "price": 2800,
+          "vendorName": "cafediario.cl",
+          "venueName": "",
+          "serviceType": "catering",
+          "tags": [
+            "chicken",
+            "ham",
+            "egg"
+          ]
+        },
+        {
+          "id": "item-18",
+          "name": "Caja 12 un Tapaditos Brioche",
+          "description": "adult_birthday_home,office_farewell_venue",
+          "category": "finger_food",
+          "subcategory": "box_unit",
+          "price": 16900,
+          "vendorName": "cafediario.cl",
+          "venueName": "",
+          "serviceType": "catering",
+          "tags": [
+            "chicken",
+            "ham",
+            "egg"
+          ]
+        },
+        {
+          "id": "item-19",
+          "name": "Mini tartaletas surtidas",
+          "description": "adult_birthday_home,office_farewell_venue,networking_venue",
+          "category": "dessert",
+          "subcategory": "mini_tartaleta",
+          "price": 2400,
+          "vendorName": "cafediario.cl",
+          "venueName": "",
+          "serviceType": "catering",
+          "tags": [
+            "pie",
+            "cheesecake",
+            "assorted"
+          ]
+        },
+        {
+          "id": "item-20",
+          "name": "Mesa Festín (7 salados + 4 dulces)",
+          "description": "adult_birthday_home,networking_venue",
+          "category": "catering_pack",
+          "subcategory": "mesa_catering",
+          "price": 14900,
+          "vendorName": "cafediario.cl",
+          "venueName": "",
+          "serviceType": "catering",
+          "tags": [
+            "full_service",
+            "premium",
+            "quiches"
+          ]
+        },
+        {
+          "id": "item-21",
+          "name": "Pack 20 lomitos",
+          "description": "big_home_party,family_lunch_bbq_home",
+          "category": "main_delivery",
+          "subcategory": "sandwich_pack",
+          "price": 53000,
+          "vendorName": "manungo.cl",
+          "venueName": "",
+          "serviceType": "catering",
+          "tags": [
+            "beef",
+            "chilean",
+            "ready_to_heat"
+          ]
+        },
+        {
+          "id": "item-22",
+          "name": "Pack 40 mechadas",
+          "description": "big_home_party",
+          "category": "main_delivery",
+          "subcategory": "sandwich_pack",
+          "price": 115000,
+          "vendorName": "manungo.cl",
+          "venueName": "",
+          "serviceType": "catering",
+          "tags": [
+            "beef",
+            "chilean",
+            "ready_to_heat"
+          ]
+        },
+        {
+          "id": "item-23",
+          "name": "Pack 20 hot-dog",
+          "description": "big_home_party,family_lunch_bbq_home",
+          "category": "main_delivery",
+          "subcategory": "sandwich_pack",
+          "price": 51000,
+          "vendorName": "manungo.cl",
+          "venueName": "",
+          "serviceType": "catering",
+          "tags": [
+            "sausage",
+            "chilean",
+            "ready_to_heat"
+          ]
+        },
+        {
+          "id": "item-24",
+          "name": "Pollo ganso a la olla",
+          "description": "big_home_party,family_lunch_bbq_home",
+          "category": "main_delivery",
+          "subcategory": "main_dish",
+          "price": 5900,
+          "vendorName": "manungo.cl",
+          "venueName": "",
+          "serviceType": "catering",
+          "tags": [
+            "chicken",
+            "chilean",
+            "ready_to_heat"
+          ]
+        },
+        {
+          "id": "item-25",
+          "name": "Anticuchos",
+          "description": "big_home_party,family_lunch_bbq_home",
+          "category": "main_delivery",
+          "subcategory": "main_dish",
+          "price": 3500,
+          "vendorName": "manungo.cl",
+          "venueName": "",
+          "serviceType": "catering",
+          "tags": [
+            "beef",
+            "chilean",
+            "skewers"
+          ]
+        },
+        {
+          "id": "item-26",
+          "name": "Burrata Granarolo 150 g",
+          "description": "adult_birthday_home,wine_and_cheese",
+          "category": "cheese",
+          "subcategory": "cheese_cow",
+          "price": 4990,
+          "vendorName": "aperitivo.cl",
+          "venueName": "",
+          "serviceType": "grocery",
+          "tags": [
+            "cheese",
+            "fresh",
+            "italian"
+          ]
+        },
+        {
+          "id": "item-27",
+          "name": "Queso Manchego In Bocca Romero 200 g",
+          "description": "adult_birthday_home,wine_and_cheese",
+          "category": "cheese",
+          "subcategory": "cheese_sheep",
+          "price": 6990,
+          "vendorName": "aperitivo.cl",
+          "venueName": "",
+          "serviceType": "grocery",
+          "tags": [
+            "cheese",
+            "sheep",
+            "spanish",
+            "gourmet"
+          ]
+        },
+        {
+          "id": "item-28",
+          "name": "Jamón Serrano Costa Brava 500 g",
+          "description": "adult_birthday_home,wine_and_cheese",
+          "category": "charcuterie",
+          "subcategory": "ham",
+          "price": 9990,
+          "vendorName": "aperitivo.cl",
+          "venueName": "",
+          "serviceType": "grocery",
+          "tags": [
+            "ham",
+            "spanish",
+            "charcuterie"
+          ]
+        },
+        {
+          "id": "item-29",
+          "name": "Kimchi La Fermentista 400 g",
+          "description": "adult_birthday_home,big_home_party",
+          "category": "fermented",
+          "subcategory": "dip",
+          "price": 6690,
+          "vendorName": "aperitivo.cl",
+          "venueName": "",
+          "serviceType": "grocery",
+          "tags": [
+            "kimchi",
+            "fermented",
+            "spicy"
+          ]
+        },
+        {
+          "id": "item-30",
+          "name": "Gyozas de Camarón Asia Wok 30 un",
+          "description": "adult_birthday_home,big_home_party",
+          "category": "frozen",
+          "subcategory": "finger_food",
+          "price": 13990,
+          "vendorName": "aperitivo.cl",
+          "venueName": "",
+          "serviceType": "grocery",
+          "tags": [
+            "gyoza",
+            "shrimp",
+            "finger_food"
+          ]
+        },
+        {
+          "id": "item-31",
+          "name": "Vino Sauvignon Blanc J. Bouchon",
+          "description": "adult_birthday_home,family_lunch_bbq_home",
+          "category": "wine",
+          "subcategory": "wine_white",
+          "price": 3500,
+          "vendorName": "aperitivo.cl",
+          "venueName": "",
+          "serviceType": "drinks",
+          "tags": [
+            "wine",
+            "white"
+          ]
+        },
+        {
+          "id": "item-32",
+          "name": "Vino Rosé Calyptra Vivendo",
+          "description": "adult_birthday_home,networking_venue",
+          "category": "wine",
+          "subcategory": "wine_rose",
+          "price": 8990,
+          "vendorName": "aperitivo.cl",
+          "venueName": "",
+          "serviceType": "drinks",
+          "tags": [
+            "wine",
+            "rose"
+          ]
+        },
+        {
+          "id": "item-33",
+          "name": "Gin Hendrick's 700 ml",
+          "description": "adult_birthday_home,party_high_energy",
+          "category": "spirits",
+          "subcategory": "gin",
+          "price": 25990,
+          "vendorName": "aperitivo.cl",
+          "venueName": "",
+          "serviceType": "drinks",
+          "tags": [
+            "gin",
+            "spirit"
+          ]
+        },
+        {
+          "id": "item-34",
+          "name": "Café Kimbo Intenso 1 kg",
+          "description": "adult_birthday_home,brunch",
+          "category": "coffee",
+          "subcategory": "coffee_beans",
+          "price": 14990,
+          "vendorName": "aperitivo.cl",
+          "venueName": "",
+          "serviceType": "grocery",
+          "tags": [
+            "coffee",
+            "beans",
+            "espresso"
+          ]
+        }
+      ]
+    }
+  ]
+}
