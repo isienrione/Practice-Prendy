@@ -1,3 +1,7 @@
+import fs from "fs";
+import path from "path";
+import fetch from "node-fetch";
+
 export async function handler(event) {
   const cors = {
     "Access-Control-Allow-Origin": "*",
@@ -5,57 +9,60 @@ export async function handler(event) {
     "Access-Control-Allow-Methods": "POST,OPTIONS",
   };
 
-  if (event.httpMethod === "OPTIONS") {
-    return { statusCode: 200, headers: cors, body: "" };
-  }
+  if (event.httpMethod === "OPTIONS") return { statusCode: 200, headers: cors, body: "" };
 
-  if (event.httpMethod !== "POST") {
-    return {
-      statusCode: 405,
-      headers: cors,
-      body: JSON.stringify({ error: "Method not allowed" }),
-    };
-  }
-
-  const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) {
-    return {
-      statusCode: 500,
-      headers: cors,
-      body: JSON.stringify({ error: "OPENAI_API_KEY is not configured" }),
-    };
-  }
-
+  // Load the detailed Catalog v5
+  const catalogPath = path.join(process.cwd(), "data", "party_catalog_v5.json");
+  let catalog;
   try {
-    const formData = JSON.parse(event.body || "{}");
+    const rawData = fs.readFileSync(catalogPath, "utf8");
+    catalog = JSON.parse(rawData);
+  } catch (err) {
+    console.error("Error loading catalog:", err);
+    return { 
+      statusCode: 500, 
+      headers: cors, 
+      body: JSON.stringify({ error: "Catalog file not found or invalid" }) 
+    };
+  }
 
-    const prompt = `You are Prendy, a logistics AI for social gatherings in Santiago, Chile. Generate a detailed event logistics blueprint.
+  const formData = JSON.parse(event.body || "{}");
+  const apiKey = process.env.OPENAI_API_KEY;
 
-Event: ${formData.type}, ${formData.guestCount} guests, ${formData.budget} CLP budget, Setting: ${formData.setting}, Vibe: ${formData.vibe}, Dietary: ${formData.dietary || "None"}, Notes: ${formData.notes || "None"}
-Store routing rules (Chile / Santiago):
-- lider: bulk groceries + staples (tortillas, meat, veg, soda, chips, paper goods).
-- jumbo: premium host items (gourmet cheese/charcuterie, nicer desserts, better wine, imported ingredients).
-- pedidosya or ubereats: last-minute party supplies + fast delivery (balloons, decor, candles, extra snacks, emergency items).
-- rappi: very fast drinks/ice.
-- mercadolibre: chairs, benches, tables, equipment, lighting, speakers, coolers.
-REQUIREMENT: Use at least 3 different preferred_store values across the supplies when guestCount >= 12.
-preferred_store must be one of: lider, jumbo, pedidosya, ubereats, rappi, mercadolibre.
+  // FOUNDER'S EXPERT LOGIC:
+  // We provide the AI with a structured view of the catalog.
+  // We instruct it to be an expert planner that prioritizes specific brands but maintains functionality.
+  const systemPrompt = `
+You are "Prendy", the expert logistics AI for premium social gatherings in Santiago, Chile.
+Your task is to generate a personalized "Blueprint" JSON.
 
+EXPERT SENSITIVITY & RULES:
+1. NO GENERIC ITEMS: Do not say "Main protein" or "Sodas". Use the exact "name" from the catalog (e.g., "Lomo Vetado Premium Camposorno").
+2. BRAND & PRICE PRIORITY: Always prioritize items that have complete brand names and price data.
+3. GRACEFUL FALLBACK: If a necessary item for the event (like "Ice" or a specific "Decoration") lacks price or brand details in the catalog, you MUST still include it to ensure the event is functional. Use the name provided and estimate the quantity.
+4. QUANTITY SCALING: Calculate quantities for ${formData.guestCount} guests (e.g., 300g meat/person, 1 bottle of wine per 3 people).
+5. CHILEAN CONTEXT: Use "Jumbo" for premium host items, "Lider" for staples, and "Rappi" for urgent drinks.
 
-Respond ONLY with valid JSON (no markdown, no commentary) exactly matching this schema:
+CATALOG DATA (v5):
+${JSON.stringify(catalog.items.slice(0, 200))}
+`;
+
+  const userPrompt = `
+Generate a Blueprint for:
+Event: ${formData.type}
+Guests: ${formData.guestCount}
+Budget: ${formData.budget} CLP
+Vibe: ${formData.vibe}
+Notes: ${formData.notes || "None"}
+
+You MUST respond with valid JSON matching this structure:
 {
-  "summary": "one sentence",
-  "timeline": [{"time": "HH:MM", "task": "desc", "owner": "who"}],
+  "summary": "One sentence expert summary",
+  "timeline": [{"time": "HH:MM", "task": "description", "owner": "who"}],
   "supplies": {
-    "food": [
-      {"item": "name", "quantity": 0, "unit": "u", "note": "tip", "preferred_store": "lider", "suggestedStores": ["lider","jumbo"]}
-    ],
-    "drinks": [
-      {"item": "name", "quantity": 0, "unit": "u", "note": "tip", "preferred_store": "rappi", "suggestedStores": ["rappi","lider"]}
-    ],
-    "equipment": [
-      {"item": "name", "quantity": 0, "unit": "u", "note": "tip", "preferred_store": "mercadolibre", "suggestedStores": ["mercadolibre","lider"]}
-    ]
+    "food": [{"id": "item-id", "item": "Brand Name", "quantity": 0, "unit": "u/kg", "price": 0, "preferred_store": "storeId", "note": "why this choice"}],
+    "drinks": [...],
+    "equipment": [...]
   },
   "budget": {
     "venue": {"amount": 0, "pct": 0},
@@ -66,142 +73,48 @@ Respond ONLY with valid JSON (no markdown, no commentary) exactly matching this 
     "misc": {"amount": 0, "pct": 0}
   },
   "staffing": {"servers": 0, "bartenders": 0, "setup_crew": 0},
-  "tips": ["tip1","tip2","tip3"],
-  "risks": ["risk1","risk2"]
+  "tips": ["Expert insight 1", "Expert insight 2"],
+  "risks": ["Specific risk for this event"]
 }
+`;
 
-}`;
-
-    const resp = await fetch("https://api.openai.com/v1/chat/completions", {
+  try {
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
+        "Authorization": `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: "gpt-4o",
-        temperature: 0.8,
+        model: "gpt-4o", // Using the most capable model for expert reasoning
         messages: [
-          { role: "system", content: "You output ONLY valid JSON. No markdown." },
-          { role: "user", content: prompt },
+          { role: "system", content: systemPrompt },
+          { role: "user", content: userPrompt }
         ],
+        temperature: 0.7,
+        response_format: { type: "json_object" }
       }),
     });
 
-    const data = await resp.json();
-
-    if (!resp.ok) {
-      return {
-        statusCode: resp.status,
-        headers: cors,
-        body: JSON.stringify({ error: "OpenAI error", details: data }),
-      };
+    const aiResult = await response.json();
+    
+    if (!response.ok) {
+      throw new Error(aiResult.error?.message || "OpenAI API Error");
     }
 
-    const text = data?.choices?.[0]?.message?.content?.trim() || "";
-
-    // Hardening: strip accidental code fences
-    const cleaned = text.replace(/```json|```/g, "").trim();
-
-    // Extract JSON object if there is extra text
-    const start = cleaned.indexOf("{");
-    const end = cleaned.lastIndexOf("}");
-    if (start === -1 || end === -1) throw new Error("No JSON found in model output");
-
-    const parsed = JSON.parse(cleaned.slice(start, end + 1));
-
-const ALLOWED_STORES = new Set(["lider","jumbo","pedidosya","ubereats","rappi","mercadolibre"]);
-const normStore = (s) => String(s || "").trim().toLowerCase();
-
-
-function ensureStores(list, cat) {
-  return (Array.isArray(list) ? list : []).map((x) => {
-    // Normalize incoming store fields (if model provided them)
-    const ps = normStore(x.preferred_store);
-    const ss = Array.isArray(x.suggestedStores)
-      ? x.suggestedStores.map(normStore).filter((s) => ALLOWED_STORES.has(s))
-      : [];
-
- if (ALLOWED_STORES.has(ps) && ss.length) {
-  const merged = [ps, ...ss]
-    .filter((v, i, a) => a.indexOf(v) === i)
-    .slice(0, 4);
-  return { ...x, preferred_store: ps, suggestedStores: merged };
-}
-const g = Number(formData.guestCount) || 0;
-if (g >= 12) {
-  const used = new Set(
-    ["food","drinks","equipment"].flatMap(k => (parsed.supplies?.[k] || []).map(x => x.preferred_store))
-  );
-  if (used.size < 3) {
-    // force diversity without changing quantities
-    if (parsed.supplies.food?.length) parsed.supplies.food[0].preferred_store = "jumbo";
-    if (parsed.supplies.equipment?.length) parsed.supplies.equipment[0].preferred_store = "mercadolibre";
-  }
-}
-
-
-    // Otherwise route based on content + category
-    const name = String(x.item || "").toLowerCase();
-    let preferred = "lider";
-
-    // Equipment / rentals => MercadoLibre
-    if (
-      cat === "equipment" ||
-      /chair|chairs|bench|benches|table|tables|speaker|speakers|light|lights|projector|cooler/.test(name)
-    ) {
-      preferred = "mercadolibre";
-    }
-    // Premium host items => Jumbo
-    else if (
-      /cheese|charcut|brie|camembert|prosciutto|gourmet|wine|cabernet|carmenere|sauvignon|champagne|sparkling/.test(name)
-    ) {
-      preferred = "jumbo";
-    }
-    // Last-minute decor/party supplies => PedidosYa or UberEats
-    else if (
-      /balloon|balloons|garland|decor|decoration|candles|confetti|banner|centerpiece|tablecloth|globos|guirnalda/.test(name)
-    ) {
-      preferred = "pedidosya";
-    }
-    // Ice / urgent drinks => Rappi
-    else if (/ice|hielo/.test(name)) {
-      preferred = "rappi";
-    }
-
-    preferred = ALLOWED_STORES.has(preferred) ? preferred : "lider";
-
-    const fallback = {
-      lider: ["lider", "jumbo"],
-      jumbo: ["jumbo", "lider"],
-      pedidosya: ["pedidosya", "ubereats", "rappi"],
-      ubereats: ["ubereats", "pedidosya", "rappi"],
-      rappi: ["rappi", "lider"],
-      mercadolibre: ["mercadolibre", "lider"],
-    }[preferred];
-
-    return { ...x, preferred_store: preferred, suggestedStores: fallback };
-  });
-}
-
-parsed.supplies = parsed.supplies || {};
-parsed.supplies.food = ensureStores(parsed.supplies.food, "food");
-parsed.supplies.drinks = ensureStores(parsed.supplies.drinks, "drinks");
-parsed.supplies.equipment = ensureStores(parsed.supplies.equipment, "equipment");
+    const blueprint = JSON.parse(aiResult.choices[0].message.content);
 
     return {
       statusCode: 200,
       headers: cors,
-      body: JSON.stringify(parsed),
+      body: JSON.stringify(blueprint),
     };
-  } catch (err) {
+  } catch (error) {
+    console.error("Function Error:", error);
     return {
       statusCode: 500,
       headers: cors,
-      body: JSON.stringify({
-        error: "Server error",
-        message: String(err?.message || err),
-      }),
+      body: JSON.stringify({ error: "Failed to generate expert blueprint", message: error.message }),
     };
   }
 }
